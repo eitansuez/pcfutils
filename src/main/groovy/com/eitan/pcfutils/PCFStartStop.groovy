@@ -35,8 +35,10 @@ class PCFStartStop {
     def deployments = pcfutils.parseVMsByDeployment(output)
 
     // first, start elastic runtime vms in specific start order
-    def elasticRuntimeVms = deployments['cf'].vms
+    Deployment cfDeployment = deployments['cf']
+    def elasticRuntimeVms = cfDeployment.vms
     def sortedVms = pcfutils.sortStartOrder(elasticRuntimeVms)
+    execIt cfDeployment.setCommand()
     sortedVms.each { vm ->
       execIt vm.startCommand()
     }
@@ -63,14 +65,16 @@ class PCFStartStop {
     def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
     nonElasticRuntimeDeployments.each { Deployment deployment ->
       execIt deployment.setCommand()
-      deployment.vm.each { vm ->
+      deployment.vms.each { vm ->
         execIt vm.stopCommand()
       }
     }
 
     // then stop elastic runtime vms in specific stop order
-    def elasticRuntimeVms = deployments['cf'].vms
+    Deployment cfDeployment = deployments['cf']
+    def elasticRuntimeVms = cfDeployment.vms
     def sortedVms = pcfutils.sortStopOrder(elasticRuntimeVms)
+    execIt cfDeployment.setCommand()
     sortedVms.each { vm ->
       execIt vm.stopCommand()
     }
