@@ -1,0 +1,7 @@
+
+- communicate testing=true/false from command line
+- support stopping a pcf with multiple deployments, not just cf
+- support starting
+- how to make this run on opsmanager/jumpbox where i have no gradle? -- use gradlew perhaps
+
+

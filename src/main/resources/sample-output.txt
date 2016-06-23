@@ -1,0 +1,30 @@
+Acting as user 'director' on deployment 'cf-1b2be785ec079a610bad' on 'p-bosh-f736f2a2c08a1dd3bc29'
+RSA 1024 bit CA certificates are loaded due to old openssl compatibility
+
+Director task 611
+
+Task 611 done
+
++-------------------------------------------------------------------------------------------------------+---------+-----+--------------------------------------------------------------+------------+
+| VM                                                                                                    | State   | AZ  | VM Type                                                      | IPs        |
++-------------------------------------------------------------------------------------------------------+---------+-----+--------------------------------------------------------------+------------+
+| clock_global-partition-31e36c66f26d6a07fd24/0 (a67f82ad-33b2-42cb-9472-380d9a673ceb)                  | running | n/a | clock_global-partition-31e36c66f26d6a07fd24                  | 10.0.16.19 |
+| cloud_controller-partition-31e36c66f26d6a07fd24/0 (ff71f25a-7059-4c32-863d-8e7c2e2524c6)              | running | n/a | cloud_controller-partition-31e36c66f26d6a07fd24              | 10.0.16.18 |
+| cloud_controller_worker-partition-31e36c66f26d6a07fd24/0 (a5f81bae-4fd5-4ce1-aef0-54ce4b70adf6)       | running | n/a | cloud_controller_worker-partition-31e36c66f26d6a07fd24       | 10.0.16.20 |
+| consul_server-partition-31e36c66f26d6a07fd24/0 (3e60e477-78d5-4575-8d3f-f0f1dbe8f687)                 | running | n/a | consul_server-partition-31e36c66f26d6a07fd24                 | 10.0.16.11 |
+| diego_brain-partition-31e36c66f26d6a07fd24/0 (97efe835-8211-4764-b998-1af8e50ab8af)                   | running | n/a | diego_brain-partition-31e36c66f26d6a07fd24                   | 10.0.16.22 |
+| diego_cell-partition-31e36c66f26d6a07fd24/0 (e104efc6-a47f-4d8f-88c6-b01fabe480d1)                    | running | n/a | diego_cell-partition-31e36c66f26d6a07fd24                    | 10.0.16.23 |
+| diego_cell-partition-31e36c66f26d6a07fd24/1 (04adc6ea-fce8-4d13-8d8c-7c5b097b30d2)                    | running | n/a | diego_cell-partition-31e36c66f26d6a07fd24                    | 10.0.16.24 |
+| diego_cell-partition-31e36c66f26d6a07fd24/2 (1950f226-5be1-40fb-a0dc-ee2265346004)                    | running | n/a | diego_cell-partition-31e36c66f26d6a07fd24                    | 10.0.16.25 |
+| diego_database-partition-31e36c66f26d6a07fd24/0 (88d92069-28bf-4ecd-bb56-df6c9750d137)                | running | n/a | diego_database-partition-31e36c66f26d6a07fd24                | 10.0.16.14 |
+| doppler-partition-31e36c66f26d6a07fd24/0 (a376136e-1951-4cc7-98ed-c62d64a2ad89)                       | running | n/a | doppler-partition-31e36c66f26d6a07fd24                       | 10.0.16.26 |
+| etcd_server-partition-31e36c66f26d6a07fd24/0 (cde19b03-1195-47f4-ac59-610d1b24f8b6)                   | running | n/a | etcd_server-partition-31e36c66f26d6a07fd24                   | 10.0.16.13 |
+| loggregator_trafficcontroller-partition-31e36c66f26d6a07fd24/0 (b474eb6b-e769-42d4-9dd7-a17442e72636) | running | n/a | loggregator_trafficcontroller-partition-31e36c66f26d6a07fd24 | 10.0.16.27 |
+| mysql-partition-31e36c66f26d6a07fd24/0 (04c2f4f6-3503-4d88-b6f3-adb55cac7b7c)                         | running | n/a | mysql-partition-31e36c66f26d6a07fd24                         | 10.0.16.17 |
+| mysql_proxy-partition-31e36c66f26d6a07fd24/0 (5852157c-dd24-4a01-98ac-19dfce4813a6)                   | running | n/a | mysql_proxy-partition-31e36c66f26d6a07fd24                   | 10.0.16.16 |
+| nats-partition-31e36c66f26d6a07fd24/0 (fcb8fb1c-768a-4f75-a6b8-de2bc316d96f)                          | running | n/a | nats-partition-31e36c66f26d6a07fd24                          | 10.0.16.12 |
+| router-partition-31e36c66f26d6a07fd24/0 (f3c3e55b-e721-4b6f-8de7-2ace75c5c7f6)                        | running | n/a | router-partition-31e36c66f26d6a07fd24                        | 10.0.16.15 |
+| uaa-partition-31e36c66f26d6a07fd24/0 (3594905c-5e1a-4c96-8ecd-bdc0fc04096c)                           | running | n/a | uaa-partition-31e36c66f26d6a07fd24                           | 10.0.16.21 |
++-------------------------------------------------------------------------------------------------------+---------+-----+--------------------------------------------------------------+------------+
+
+VMs total: 17
