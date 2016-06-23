@@ -2,7 +2,6 @@ package com.eitan.pcfutils
 
 class PCFStartStop {
 
-  boolean start = false
   boolean testing = true
 
   static void main(String... args) {
