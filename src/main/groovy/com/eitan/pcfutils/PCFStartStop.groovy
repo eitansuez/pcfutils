@@ -1,18 +1,62 @@
 package com.eitan.pcfutils
 
-class PCFStopper {
+class PCFStartStop {
 
+  boolean start = false
   boolean testing = true
 
   static void main(String... args) {
-    boolean testMode = (args.length > 0 && args[0] == 'testing')
+    if (args.length < 1) {
+      println "usage is wrong.  need to pass start|stop [testMode]"
+      return
+    }
+    if (! (args[0] == 'start' || args[0] == 'stop')) {
+      println 'first argument is start or stop'
+      return
+    }
+
+    boolean testMode = (args.length == 2 && args[1] == 'testing')
     if (testMode) {
       println "testMode is ON"
     }
-    new PCFStopper(testing: testMode).run()
+    boolean start = args[0] == 'start'
+    def pcfstartstop = new PCFStartStop(testing: testMode)
+    if (start) {
+      pcfstartstop.start()
+    } else {
+      pcfstartstop.stop()
+    }
   }
 
-  def run() {
+  def start() {
+    def pcfutils = new PCFUtils()
+
+    def output = execReturn "bosh vms"
+
+    def deployments = pcfutils.parseVMsByDeployment(output)
+
+    // first, start elastic runtime vms in specific start order
+    def elasticRuntimeVms = deployments['cf'].vms
+    def sortedVms = pcfutils.sortStartOrder(elasticRuntimeVms)
+    sortedVms.each { vm ->
+      execIt vm.startCommand()
+    }
+
+    // then, start non-elastic runtime vms
+    def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
+    def nonElasticRuntimeVms = nonElasticRuntimeDeployments.inject([], { List vms, Deployment deployment ->
+      vms.addAll(deployment.vms)
+      vms
+    })
+
+    nonElasticRuntimeVms.each { vm ->
+      execIt vm.startCommand()
+    }
+
+    execIt "bosh -n vm resurrection on"
+  }
+
+  def stop() {
     def pcfutils = new PCFUtils()
 
     execIt "bosh -n vm resurrection off"

@@ -28,4 +28,9 @@ class BoshVMSpec extends Specification {
     expect:
     vm.stopCommand() == "bosh -n stop cloud_controller_worker-partition-31e36c66f26d6a07fd24 0 --hard"
   }
+
+  def "check start command"() {
+    expect:
+    vm.startCommand() == "bosh -n start cloud_controller_worker-partition-31e36c66f26d6a07fd24 0"
+  }
 }

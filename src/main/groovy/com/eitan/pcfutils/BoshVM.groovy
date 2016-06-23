@@ -28,4 +28,8 @@ class BoshVM {
   String stopCommand() {
     "bosh -n stop ${id} ${index} --hard"
   }
+
+  String startCommand() {
+    "bosh -n start ${id} ${index}"
+  }
 }

@@ -10,9 +10,20 @@ dependencies {
 }
 
 task stopPcf(type: JavaExec) {
-  description 'stop a pcf instance;  use pcfTestMode property to configure'
+  description 'stop a pcf instance (use pcfTestMode property to configure)'
   classpath = sourceSets.main.runtimeClasspath
-  main = 'com.eitan.pcfutils.PCFStopper'
+  main = 'com.eitan.pcfutils.PCFStartStop'
+  args 'stop'
+  if (pcfTestMode) {
+    args 'testing'
+  }
+}
+
+task startPcf(type: JavaExec) {
+  description 'start a pcf instance (use pcfTestMode property to configure)'
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'com.eitan.pcfutils.PCFStartStop'
+  args 'start'
   if (pcfTestMode) {
     args 'testing'
   }

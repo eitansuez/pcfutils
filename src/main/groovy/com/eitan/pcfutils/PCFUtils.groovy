@@ -2,10 +2,11 @@ package com.eitan.pcfutils
 
 class PCFUtils {
 
-  private List<String> stopOrder
+  private List<String> stopOrder, startOrder
 
   PCFUtils() {
     stopOrder = getClass().getResource("/stop-order.txt").readLines()
+    startOrder = getClass().getResource("/start-order.txt").readLines()
   }
 
   List<String> filterVMs(List<String> output) {
@@ -21,6 +22,12 @@ class PCFUtils {
   List<BoshVM> sortStopOrder(List<BoshVM> boshVMs) {
     boshVMs.sort { BoshVM vm1, BoshVM vm2 ->
       stopOrder.indexOf(vm1.type) <=> stopOrder.indexOf(vm2.type)
+    }
+  }
+
+  List<BoshVM> sortStartOrder(List<BoshVM> boshVMs) {
+    boshVMs.sort { BoshVM vm1, BoshVM vm2 ->
+      startOrder.indexOf(vm1.type) <=> startOrder.indexOf(vm2.type)
     }
   }
 
