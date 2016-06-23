@@ -5,8 +5,11 @@ class PCFStopper {
   boolean testing = true
 
   static void main(String... args) {
-    // TODO: provide a means to communicate testing from args
-    new PCFStopper(testing: true).run()
+    boolean testMode = (args.length > 0 && args[0] == 'testing')
+    if (testMode) {
+      println "testMode is ON"
+    }
+    new PCFStopper(testing: testMode).run()
   }
 
   def run() {
