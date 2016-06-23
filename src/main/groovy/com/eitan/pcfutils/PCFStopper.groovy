@@ -13,14 +13,26 @@ class PCFStopper {
   }
 
   def run() {
+    def pcfutils = new PCFUtils()
+
     execIt "bosh -n vm resurrection off"
     def output = execReturn "bosh vms"
 
-    def pcfutils = new PCFUtils()
-    def filtered = pcfutils.filterVMs(output)
+    def deployments = pcfutils.parseVMsByDeployment(output)
+    def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
+    def nonElasticRuntimeVms = nonElasticRuntimeDeployments.inject([], { List vms, Deployment deployment ->
+      vms.addAll(deployment.vms)
+      vms
+    })
 
-    def vms = filtered.collect { line -> pcfutils.filterVM(line) }
-    def sortedVms = pcfutils.sortStopOrder(vms)
+    // first stop non-elastic runtime vms
+    nonElasticRuntimeVms.each { vm ->
+      execIt vm.stopCommand()
+    }
+
+    // then stop elastic runtime vms in specific stop order
+    def elasticRuntimeVms = deployments['cf'].vms
+    def sortedVms = pcfutils.sortStopOrder(elasticRuntimeVms)
     sortedVms.each { vm ->
       execIt vm.stopCommand()
     }
@@ -44,7 +56,7 @@ class PCFStopper {
   def execReturn(cmd) {
     if (testing) {
       println "`$cmd`"
-      return getClass().getResource("/bosh-vms-cf-deployment.txt").readLines()
+      return getClass().getResource("/bosh-vms.txt").readLines()
     }
 
     def p = new ProcessBuilder('sh', '-c', cmd)

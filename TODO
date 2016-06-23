@@ -1,22 +1,4 @@
 
-- support stopping a pcf with multiple deployments, not just cf
-
-one idea:
- make the bosh vms reader smarter
-  don't just filter on -partition-
-  instead be deployment aware
-  group the list into a map keyed by deployment name
-
-  i.e. list of vms by deployment:
-  parse step:
-  look for ^Deployment '$deployment_name'$
-  then subsequent vms belong to that deployment
-  so you accumulate a list deployments, and sort them so that cf-* is last
-
-
-  first delete all vms (in any order) for deployments that are not cf!
-  then sort the cf vms by stop order and stop them
-
 - support starting
 - how to make this run on opsmanager/jumpbox where i have no gradle? -- use gradlew perhaps
 
