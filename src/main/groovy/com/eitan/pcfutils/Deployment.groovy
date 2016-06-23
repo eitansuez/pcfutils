@@ -16,6 +16,6 @@ class Deployment {
   }
 
   String setCommand() {
-    "bosh -n deployment ${id}"
+    "bosh deployment /var/tempest/workspaces/default/deployments/${id}.yml"
   }
 }
