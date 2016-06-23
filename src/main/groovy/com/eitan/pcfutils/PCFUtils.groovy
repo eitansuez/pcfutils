@@ -9,7 +9,7 @@ class PCFUtils {
   }
 
   List<String> filterVMs(List<String> output) {
-    output.grep { it.contains '-partition-' }
+    output.grep { isVm(it) }
   }
 
   BoshVM filterVM(String line) {
@@ -22,5 +22,26 @@ class PCFUtils {
     boshVMs.sort { BoshVM vm1, BoshVM vm2 ->
       stopOrder.indexOf(vm1.type) <=> stopOrder.indexOf(vm2.type)
     }
+  }
+
+  def parseVMsByDeployment(List<String> output) {
+    def deployments = [:]
+    Deployment deployment = null
+    output.each { line ->
+      def matcher = (line =~ /^Deployment '([a-z0-9\-]+)'$/)
+      if (matcher.matches()) {
+        deployment = new Deployment(matcher[0][1])
+        deployments.put(deployment.type, deployment)
+      }
+      else if (isVm(line)) {
+        def vm = filterVM(line)
+        deployment.vms << vm
+      }
+    }
+    deployments
+  }
+
+  private boolean isVm(line) {
+    line.contains('-partition-')
   }
 }

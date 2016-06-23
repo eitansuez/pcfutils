@@ -1,0 +1,87 @@
+Acting as user 'director' on 'p-bosh-f736f2a2c08a1dd3bc29'
+RSA 1024 bit CA certificates are loaded due to old openssl compatibility
+Deployment 'cf-1b2be785ec079a610bad'
+
+Director task 612
+
+Task 612 done
+
++-------------------------------------------------------------------------------------------------------+---------+-----+--------------------------------------------------------------+------------+
+| VM                                                                                                    | State   | AZ  | VM Type                                                      | IPs        |
++-------------------------------------------------------------------------------------------------------+---------+-----+--------------------------------------------------------------+------------+
+| clock_global-partition-31e36c66f26d6a07fd24/0 (a67f82ad-33b2-42cb-9472-380d9a673ceb)                  | running | n/a | clock_global-partition-31e36c66f26d6a07fd24                  | 10.0.16.19 |
+| cloud_controller-partition-31e36c66f26d6a07fd24/0 (ff71f25a-7059-4c32-863d-8e7c2e2524c6)              | running | n/a | cloud_controller-partition-31e36c66f26d6a07fd24              | 10.0.16.18 |
+| cloud_controller_worker-partition-31e36c66f26d6a07fd24/0 (a5f81bae-4fd5-4ce1-aef0-54ce4b70adf6)       | running | n/a | cloud_controller_worker-partition-31e36c66f26d6a07fd24       | 10.0.16.20 |
+| consul_server-partition-31e36c66f26d6a07fd24/0 (3e60e477-78d5-4575-8d3f-f0f1dbe8f687)                 | running | n/a | consul_server-partition-31e36c66f26d6a07fd24                 | 10.0.16.11 |
+| diego_brain-partition-31e36c66f26d6a07fd24/0 (97efe835-8211-4764-b998-1af8e50ab8af)                   | running | n/a | diego_brain-partition-31e36c66f26d6a07fd24                   | 10.0.16.22 |
+| diego_cell-partition-31e36c66f26d6a07fd24/0 (e104efc6-a47f-4d8f-88c6-b01fabe480d1)                    | running | n/a | diego_cell-partition-31e36c66f26d6a07fd24                    | 10.0.16.23 |
+| diego_cell-partition-31e36c66f26d6a07fd24/1 (04adc6ea-fce8-4d13-8d8c-7c5b097b30d2)                    | running | n/a | diego_cell-partition-31e36c66f26d6a07fd24                    | 10.0.16.24 |
+| diego_cell-partition-31e36c66f26d6a07fd24/2 (1950f226-5be1-40fb-a0dc-ee2265346004)                    | running | n/a | diego_cell-partition-31e36c66f26d6a07fd24                    | 10.0.16.25 |
+| diego_database-partition-31e36c66f26d6a07fd24/0 (88d92069-28bf-4ecd-bb56-df6c9750d137)                | running | n/a | diego_database-partition-31e36c66f26d6a07fd24                | 10.0.16.14 |
+| doppler-partition-31e36c66f26d6a07fd24/0 (a376136e-1951-4cc7-98ed-c62d64a2ad89)                       | running | n/a | doppler-partition-31e36c66f26d6a07fd24                       | 10.0.16.26 |
+| etcd_server-partition-31e36c66f26d6a07fd24/0 (cde19b03-1195-47f4-ac59-610d1b24f8b6)                   | running | n/a | etcd_server-partition-31e36c66f26d6a07fd24                   | 10.0.16.13 |
+| loggregator_trafficcontroller-partition-31e36c66f26d6a07fd24/0 (b474eb6b-e769-42d4-9dd7-a17442e72636) | running | n/a | loggregator_trafficcontroller-partition-31e36c66f26d6a07fd24 | 10.0.16.27 |
+| mysql-partition-31e36c66f26d6a07fd24/0 (04c2f4f6-3503-4d88-b6f3-adb55cac7b7c)                         | running | n/a | mysql-partition-31e36c66f26d6a07fd24                         | 10.0.16.17 |
+| mysql_proxy-partition-31e36c66f26d6a07fd24/0 (5852157c-dd24-4a01-98ac-19dfce4813a6)                   | running | n/a | mysql_proxy-partition-31e36c66f26d6a07fd24                   | 10.0.16.16 |
+| nats-partition-31e36c66f26d6a07fd24/0 (fcb8fb1c-768a-4f75-a6b8-de2bc316d96f)                          | running | n/a | nats-partition-31e36c66f26d6a07fd24                          | 10.0.16.12 |
+| router-partition-31e36c66f26d6a07fd24/0 (f3c3e55b-e721-4b6f-8de7-2ace75c5c7f6)                        | running | n/a | router-partition-31e36c66f26d6a07fd24                        | 10.0.16.15 |
+| uaa-partition-31e36c66f26d6a07fd24/0 (3594905c-5e1a-4c96-8ecd-bdc0fc04096c)                           | running | n/a | uaa-partition-31e36c66f26d6a07fd24                           | 10.0.16.21 |
++-------------------------------------------------------------------------------------------------------+---------+-----+--------------------------------------------------------------+------------+
+
+VMs total: 17
+Deployment 'p-mysql-2ec933c894008afa9fb6'
+
+Director task 613
+
+Task 613 done
+
++-----------------------------------------------------------------------------------------+---------+-----+------------------------------------------------+------------+
+| VM                                                                                      | State   | AZ  | VM Type                                        | IPs        |
++-----------------------------------------------------------------------------------------+---------+-----+------------------------------------------------+------------+
+| cf-mysql-broker-partition-31e36c66f26d6a07fd24/0 (9cb8e662-82c8-43f9-9553-6c11a1dfd251) | running | n/a | cf-mysql-broker-partition-31e36c66f26d6a07fd24 | 10.0.16.60 |
+| mysql-partition-31e36c66f26d6a07fd24/0 (a6c88266-4eed-48b9-ad51-3abc4720d055)           | running | n/a | mysql-partition-31e36c66f26d6a07fd24           | 10.0.16.58 |
+| proxy-partition-31e36c66f26d6a07fd24/0 (3b05b161-e6bd-4ded-9119-d4aefcd3a678)           | running | n/a | proxy-partition-31e36c66f26d6a07fd24           | 10.0.16.59 |
++-----------------------------------------------------------------------------------------+---------+-----+------------------------------------------------+------------+
+
+VMs total: 3
+Deployment 'p-rabbitmq-dafbef8144a4f5d2bd7f'
+
+Director task 614
+
+Task 614 done
+
++------------------------------------------------------------------------------------------+---------+-----+-------------------------------------------------+------------+
+| VM                                                                                       | State   | AZ  | VM Type                                         | IPs        |
++------------------------------------------------------------------------------------------+---------+-----+-------------------------------------------------+------------+
+| rabbitmq-broker-partition-31e36c66f26d6a07fd24/0 (279415aa-3307-4bc3-9b54-d9e2a0d2ffbb)  | running | n/a | rabbitmq-broker-partition-31e36c66f26d6a07fd24  | 10.0.16.71 |
+| rabbitmq-haproxy-partition-31e36c66f26d6a07fd24/0 (8db844ac-3a23-41b6-b7df-2b499bb1cc2c) | running | n/a | rabbitmq-haproxy-partition-31e36c66f26d6a07fd24 | 10.0.16.70 |
+| rabbitmq-server-partition-31e36c66f26d6a07fd24/0 (474600ed-5580-4cff-b273-26e525b41d38)  | running | n/a | rabbitmq-server-partition-31e36c66f26d6a07fd24  | 10.0.16.68 |
+| rabbitmq-server-partition-31e36c66f26d6a07fd24/1 (ec687cd8-d4c4-4813-a654-3e0bfe520f55)  | running | n/a | rabbitmq-server-partition-31e36c66f26d6a07fd24  | 10.0.16.69 |
++------------------------------------------------------------------------------------------+---------+-----+-------------------------------------------------+------------+
+
+VMs total: 4
+Deployment 'p-redis-0ba4f244d1f18742cbeb'
+
+Director task 615
+
+Task 615 done
+
++-----------------------------------------------------------------------------------------+---------+-----+------------------------------------------------+------------+
+| VM                                                                                      | State   | AZ  | VM Type                                        | IPs        |
++-----------------------------------------------------------------------------------------+---------+-----+------------------------------------------------+------------+
+| cf-redis-broker-partition-31e36c66f26d6a07fd24/0 (e6e4f400-51dc-4bb2-b85b-f3fe54c588d8) | running | n/a | cf-redis-broker-partition-31e36c66f26d6a07fd24 | 10.0.16.84 |
+| dedicated-node-partition-31e36c66f26d6a07fd24/0 (700398c6-f8da-4984-afbe-3dfd066ec810)  | running | n/a | dedicated-node-partition-31e36c66f26d6a07fd24  | 10.0.16.85 |
+| dedicated-node-partition-31e36c66f26d6a07fd24/1 (2fd08421-b5db-42ee-9bd0-d02de34024c2)  | running | n/a | dedicated-node-partition-31e36c66f26d6a07fd24  | 10.0.16.86 |
+| dedicated-node-partition-31e36c66f26d6a07fd24/2 (da650cf4-42be-4daf-9a0a-fcb642b65e94)  | running | n/a | dedicated-node-partition-31e36c66f26d6a07fd24  | 10.0.16.87 |
+| dedicated-node-partition-31e36c66f26d6a07fd24/3 (dc1f735b-e1a2-4c8e-818b-d1732496f555)  | running | n/a | dedicated-node-partition-31e36c66f26d6a07fd24  | 10.0.16.88 |
+| dedicated-node-partition-31e36c66f26d6a07fd24/4 (a4553b57-047a-4ff7-a805-05f5ec8ef228)  | running | n/a | dedicated-node-partition-31e36c66f26d6a07fd24  | 10.0.16.89 |
++-----------------------------------------------------------------------------------------+---------+-----+------------------------------------------------+------------+
+
+VMs total: 6
+Deployment 'p-spring-cloud-services-cab77ba1709f368fea0b'
+
+Director task 616
+
+Task 616 done
+
+No VMs

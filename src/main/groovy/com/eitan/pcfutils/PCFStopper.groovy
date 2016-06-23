@@ -44,7 +44,7 @@ class PCFStopper {
   def execReturn(cmd) {
     if (testing) {
       println "`$cmd`"
-      return getClass().getResource("/sample-output.txt").readLines()
+      return getClass().getResource("/bosh-vms-cf-deployment.txt").readLines()
     }
 
     def p = new ProcessBuilder('sh', '-c', cmd)
