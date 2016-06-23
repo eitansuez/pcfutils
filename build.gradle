@@ -15,7 +15,7 @@ task stopPcf(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.eitan.pcfutils.PCFStartStop'
   args 'stop'
-  if (pcfTestMode) {
+  if (pcfTestMode == 'true') {
     args 'testing'
   }
 }
@@ -25,7 +25,7 @@ task startPcf(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.eitan.pcfutils.PCFStartStop'
   args 'start'
-  if (pcfTestMode) {
+  if (pcfTestMode == 'true') {
     args 'testing'
   }
 }
