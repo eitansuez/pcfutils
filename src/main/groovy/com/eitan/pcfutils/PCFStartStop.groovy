@@ -27,9 +27,9 @@ class PCFStartStop {
     }
   }
 
-  def start() {
-    def pcfutils = new PCFUtils()
+  private def pcfutils = new PCFUtils()
 
+  def start() {
     def output = execReturn "bosh vms"
 
     def deployments = pcfutils.parseVMsByDeployment(output)
@@ -43,34 +43,29 @@ class PCFStartStop {
 
     // then, start non-elastic runtime vms
     def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
-    def nonElasticRuntimeVms = nonElasticRuntimeDeployments.inject([], { List vms, Deployment deployment ->
-      vms.addAll(deployment.vms)
-      vms
-    })
-
-    nonElasticRuntimeVms.each { vm ->
-      execIt vm.startCommand()
+    nonElasticRuntimeDeployments.each { Deployment deployment ->
+      execIt deployment.setCommand()
+      deployment.vms.each { vm ->
+        execIt vm.startCommand()
+      }
     }
 
     execIt "bosh -n vm resurrection on"
   }
 
   def stop() {
-    def pcfutils = new PCFUtils()
-
     execIt "bosh -n vm resurrection off"
     def output = execReturn "bosh vms"
 
     def deployments = pcfutils.parseVMsByDeployment(output)
-    def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
-    def nonElasticRuntimeVms = nonElasticRuntimeDeployments.inject([], { List vms, Deployment deployment ->
-      vms.addAll(deployment.vms)
-      vms
-    })
 
     // first stop non-elastic runtime vms
-    nonElasticRuntimeVms.each { vm ->
-      execIt vm.stopCommand()
+    def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
+    nonElasticRuntimeDeployments.each { Deployment deployment ->
+      execIt deployment.setCommand()
+      deployment.vm.each { vm ->
+        execIt vm.stopCommand()
+      }
     }
 
     // then stop elastic runtime vms in specific stop order
@@ -81,37 +76,36 @@ class PCFStartStop {
     }
   }
 
-  def execIt(cmd) {
+  private def execIt(cmd) {
+    println cmd
     if (testing) {
-      println "`$cmd`"
       return 0
     }
 
-    def pb = new ProcessBuilder()
-    pb.environment().put("BUNDLE_GEMFILE", "/home/tempest-web/tempest/web/vendor/bosh/Gemfile")
-    pb.command('sh', '-c', "/usr/local/bin/bundle exec ${cmd}")
-    pb.redirectErrorStream(true)
-    def p = pb.start()
-
+    def p = startBundleExecProcess(cmd)
     p.inputStream.eachLine { line -> println line }
     p.waitFor()
     p.exitValue()
   }
 
-  def execReturn(cmd) {
+  private def execReturn(cmd) {
+    println cmd
     if (testing) {
-      println "`$cmd`"
       return getClass().getResource("/bosh-vms.txt").readLines()
     }
 
-    def pb = new ProcessBuilder()
-    pb.environment().put("BUNDLE_GEMFILE", "/home/tempest-web/tempest/web/vendor/bosh/Gemfile")
-    pb.command('sh', '-c', "/usr/local/bin/bundle exec ${cmd}")
-    pb.redirectErrorStream(true)
-    def p = pb.start()
-
+    def p = startBundleExecProcess(cmd)
     def output = p.inputStream.readLines()
     p.waitFor()
     output
   }
+
+  private Process startBundleExecProcess(cmd) {
+    def pb = new ProcessBuilder()
+    pb.environment().put("BUNDLE_GEMFILE", "/home/tempest-web/tempest/web/vendor/bosh/Gemfile")
+    pb.command('sh', '-c', "/usr/local/bin/bundle exec ${cmd}")
+    pb.redirectErrorStream(true)
+    pb.start()
+  }
+
 }

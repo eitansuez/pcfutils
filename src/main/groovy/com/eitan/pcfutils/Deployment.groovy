@@ -14,4 +14,8 @@ class Deployment {
   private String deriveType(id) {
     id.substring(0, id.lastIndexOf('-'))
   }
+
+  String setCommand() {
+    "bosh -n deployment ${id}"
+  }
 }

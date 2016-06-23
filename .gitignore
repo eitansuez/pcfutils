@@ -2,4 +2,6 @@ build
 .idea
 *.iml
 .gradle
+.DS_Store
+aside
 
