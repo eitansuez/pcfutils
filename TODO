@@ -1,0 +1,6 @@
+
+1. echo command as invoke it, so can follow
+2. have to set deployment before a start/stop command
+bosh deployment $name
+then invoke bosh start/stop commands
+
