@@ -87,9 +87,11 @@ class PCFStartStop {
       return 0
     }
 
-    def p = new ProcessBuilder('sh', '-c', cmd)
-        .redirectErrorStream(true)
-        .start()
+    def pb = new ProcessBuilder()
+    pb.environment().put("BUNDLE_GEMFILE", "/home/tempest-web/tempest/web/vendor/bosh/Gemfile")
+    pb.command('sh', '-c', "/usr/local/bin/bundle exec ${cmd}")
+    pb.redirectErrorStream(true)
+    def p = pb.start()
 
     p.inputStream.eachLine { line -> println line }
     p.waitFor()
@@ -102,9 +104,11 @@ class PCFStartStop {
       return getClass().getResource("/bosh-vms.txt").readLines()
     }
 
-    def p = new ProcessBuilder('sh', '-c', cmd)
-        .redirectErrorStream(true)
-        .start()
+    def pb = new ProcessBuilder()
+    pb.environment().put("BUNDLE_GEMFILE", "/home/tempest-web/tempest/web/vendor/bosh/Gemfile")
+    pb.command('sh', '-c', "/usr/local/bin/bundle exec ${cmd}")
+    pb.redirectErrorStream(true)
+    def p = pb.start()
 
     def output = p.inputStream.readLines()
     p.waitFor()
