@@ -13,7 +13,6 @@ class CfDeploymentSpec extends Specification {
   def setup() {
     PCFUtils pcfutils = new PCFUtils()
     def filtered = pcfutils.filterVMs(sampleCFOnlyOutput())
-
     deployment = new CfDeployment('cf-1b2be785ec079a610bad', pcfutils.stopOrder, pcfutils.startOrder)
     deployment.vms = filtered.collect { line -> pcfutils.filterVM(line) }
   }

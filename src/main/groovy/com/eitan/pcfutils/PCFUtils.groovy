@@ -2,25 +2,12 @@ package com.eitan.pcfutils
 
 class PCFUtils {
 
-  List<String> stopOrder, startOrder
+  List<String> stopOrder = getClass().getResource("/stop-order.txt").readLines()
+  List<String> startOrder = getClass().getResource("/start-order.txt").readLines()
 
-  PCFUtils() {
-    stopOrder = getClass().getResource("/stop-order.txt").readLines()
-    startOrder = getClass().getResource("/start-order.txt").readLines()
-  }
-
-  List<String> filterVMs(List<String> output) {
-    output.grep { isVm(it) }
-  }
-
-  BoshVM filterVM(String line) {
-    def parts = line.split("\\|")
-    def vmString = parts[1]
-    new BoshVM(vmString)
-  }
-
-  private boolean isVm(line) {
-    line.contains('-partition-')
+  CfInstallation fromOutput(List<String> output) {
+    def deployments = parseVMsByDeployment(output)
+    new CfInstallation(deployments: deployments)
   }
 
   def parseVMsByDeployment(List<String> output) {
@@ -39,6 +26,20 @@ class PCFUtils {
       }
     }
     deployments
+  }
+
+  List<String> filterVMs(List<String> output) {
+    output.grep { isVm(it) }
+  }
+
+  BoshVM filterVM(String line) {
+    def parts = line.split("\\|")
+    def vmString = parts[1]
+    new BoshVM(vmString)
+  }
+
+  boolean isVm(line) {
+    line.contains('-partition-')
   }
 
 }
