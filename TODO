@@ -1,0 +1,6 @@
+
+1. save list of vms when stop pcf
+2. retrofit start task to read the list of vms from that saved file
+3. retest the whole thing
+
+
