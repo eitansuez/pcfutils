@@ -2,7 +2,7 @@ package com.eitan.pcfutils
 
 class PCFUtils {
 
-  private List<String> stopOrder, startOrder
+  List<String> stopOrder, startOrder
 
   PCFUtils() {
     stopOrder = getClass().getResource("/stop-order.txt").readLines()
