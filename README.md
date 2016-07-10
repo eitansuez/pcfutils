@@ -19,7 +19,9 @@ Then, ssh to your ops manager, and from there:
     cd pcfutils
     ./gradlew stopStartPcf -PpcfTestMode=false
 
-This will produce a stop script and a start script, each ensuring the order in which the elastic runtime vms are stopped and started.  You can then inspect and modify these scripts to your satisfaction and invoke them to stop and retstart your specific PCF installation.
+This will produce a stop script and a start script, each ensuring the order in which the elastic runtime vms are stopped and started.  The script also makes sure that the elastic runtime vms are started first and stopped last.
+
+You can then inspect and modify these scripts to your satisfaction and invoke them to stop and retstart your specific PCF installation.
 
 NOTE:  non-elastic runtime deployments may also have ordering considerations which are not taken into account here.  It may be that service brokers need to be stopped before other vms in that deployment.  This needs to be investigated.
 

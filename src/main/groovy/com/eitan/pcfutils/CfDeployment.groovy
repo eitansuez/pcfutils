@@ -1,5 +1,6 @@
 package com.eitan.pcfutils
 
+/* Models the Elastic Runtime deployment */
 class CfDeployment extends Deployment {
 
   List<String> stopOrder, startOrder

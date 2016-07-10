@@ -21,51 +21,9 @@ class PCFStartStop {
     def output = execReturn "bosh vms"
     def deployments = pcfutils.parseVMsByDeployment(output)
 
-    makeStopScript(new File('stopscript.sh'), deployments)
-    makeStartScript(new File('startscript.sh'), deployments)
-  }
+    def installation = new CfInstallation(deployments: deployments)
 
-  def writeShellScript(stream, closure) {
-    stream.withPrintWriter { Writer pw ->
-      pw.println '#!/bin/sh'
-      pw.println()
-
-      closure.call(pw)
-    }
-  }
-
-  def makeStopScript(stream, deployments) {
-    writeShellScript(stream) { pw ->
-      pw.println "bosh -n vm resurrection off"
-      pw.println()
-
-      def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
-      nonElasticRuntimeDeployments.each { Deployment deployment ->
-        deployment.stop(pw)
-        pw.println()
-      }
-
-      deployments['cf'].stop(pw)
-      pw.println()
-    }
-  }
-
-  def makeStartScript(stream, deployments) {
-    writeShellScript(stream) { pw ->
-
-      deployments['cf'].start(pw)
-      pw.println()
-
-      def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
-      nonElasticRuntimeDeployments.each { Deployment d ->
-        d.start(pw)
-        pw.println()
-      }
-
-      pw.println "bosh -n vm resurrection on"
-      pw.println()
-    }
-
+    installation.makeScripts(new File('stopscript.sh'), new File('startscript.sh'))
   }
 
   private def execIt(cmd) {
