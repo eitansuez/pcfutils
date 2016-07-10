@@ -19,12 +19,8 @@ class PCFUtils {
     new BoshVM(vmString)
   }
 
-  List<BoshVM> sortStopOrder(List<BoshVM> boshVMs) {
-    boshVMs.sort { BoshVM vm -> stopOrder.indexOf(vm.type) }
-  }
-
-  List<BoshVM> sortStartOrder(List<BoshVM> boshVMs) {
-    boshVMs.sort { BoshVM vm -> startOrder.indexOf(vm.type) }
+  private boolean isVm(line) {
+    line.contains('-partition-')
   }
 
   def parseVMsByDeployment(List<String> output) {
@@ -33,7 +29,8 @@ class PCFUtils {
     output.each { line ->
       def matcher = (line =~ /^Deployment '([a-z0-9\-]+)'$/)
       if (matcher.matches()) {
-        deployment = new Deployment(matcher[0][1])
+        String id = matcher[0][1]
+        deployment = Deployment.isCf(id) ? new CfDeployment(id, stopOrder, startOrder) : new Deployment(id)
         deployments.put(deployment.type, deployment)
       }
       else if (isVm(line)) {
@@ -44,7 +41,4 @@ class PCFUtils {
     deployments
   }
 
-  private boolean isVm(line) {
-    line.contains('-partition-')
-  }
 }

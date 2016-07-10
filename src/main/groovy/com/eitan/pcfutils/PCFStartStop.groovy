@@ -1,11 +1,14 @@
 package com.eitan.pcfutils
 
+import groovy.util.logging.Slf4j
+
+@Slf4j
 class PCFStartStop {
 
   static void main(String... args) {
     boolean testMode = (args.length == 1 && args[0] == 'testing')
     if (testMode) {
-      println "testMode is ON"
+      log.debug "testMode is ON"
     }
     new PCFStartStop(testing: testMode).run()
   }
@@ -18,74 +21,67 @@ class PCFStartStop {
     def output = execReturn "bosh vms"
     def deployments = pcfutils.parseVMsByDeployment(output)
 
-    println "---"
-    makeStopScript(deployments)
-    println "---"
-    makeStartScript(deployments)
-    println "---"
+    makeStopScript(new File('stopscript.sh'), deployments)
+    makeStartScript(new File('startscript.sh'), deployments)
   }
 
-  def makeStopScript(deployments) {
-    println "#!/bin/sh"
-    println "bosh -n vm resurrection off"
+  def writeShellScript(stream, closure) {
+    stream.withPrintWriter { Writer pw ->
+      pw.println '#!/bin/sh'
+      pw.println()
 
-    // first stop non-elastic runtime vms
-    def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
-    nonElasticRuntimeDeployments.each { Deployment deployment ->
-      println deployment.setCommand()
-      deployment.vms.each { vm ->
-        println vm.stopCommand()
-      }
-    }
-
-    // then stop elastic runtime vms in specific stop order
-    Deployment cfDeployment = deployments['cf']
-    def elasticRuntimeVms = cfDeployment.vms
-    def sortedVms = pcfutils.sortStopOrder(elasticRuntimeVms)
-    println cfDeployment.setCommand()
-    sortedVms.each { vm ->
-      println vm.stopCommand()
+      closure.call(pw)
     }
   }
 
-  def makeStartScript(deployments) {
-    println "#!/bin/sh"
+  def makeStopScript(stream, deployments) {
+    writeShellScript(stream) { pw ->
+      pw.println "bosh -n vm resurrection off"
+      pw.println()
 
-    // first, start elastic runtime vms in specific start order
-    Deployment cfDeployment = deployments['cf']
-    def elasticRuntimeVms = cfDeployment.vms
-    def sortedVms = pcfutils.sortStartOrder(elasticRuntimeVms)
-    println cfDeployment.setCommand()
-    sortedVms.each { vm ->
-      println vm.startCommand()
-    }
-
-    // then, start non-elastic runtime vms
-    def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
-    nonElasticRuntimeDeployments.each { Deployment deployment ->
-      println deployment.setCommand()
-      deployment.vms.each { vm ->
-        println vm.startCommand()
+      def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
+      nonElasticRuntimeDeployments.each { Deployment deployment ->
+        deployment.stop(pw)
+        pw.println()
       }
+
+      deployments['cf'].stop(pw)
+      pw.println()
+    }
+  }
+
+  def makeStartScript(stream, deployments) {
+    writeShellScript(stream) { pw ->
+
+      deployments['cf'].start(pw)
+      pw.println()
+
+      def nonElasticRuntimeDeployments = deployments.values().findAll { deployment -> deployment.type != 'cf' }
+      nonElasticRuntimeDeployments.each { Deployment d ->
+        d.start(pw)
+        pw.println()
+      }
+
+      pw.println "bosh -n vm resurrection on"
+      pw.println()
     }
 
-    println "bosh -n vm resurrection on"
   }
 
   private def execIt(cmd) {
-    println cmd
+    log.debug cmd
     if (testing) {
       return 0
     }
 
     def p = startBundleExecProcess(cmd)
-    p.inputStream.eachLine { line -> println line }
+    p.inputStream.eachLine { line -> log.debug line }
     p.waitFor()
     p.exitValue()
   }
 
   private def execReturn(cmd) {
-    println cmd
+    log.debug cmd
     if (testing) {
       return getClass().getResource("/bosh-vms.txt").readLines()
     }
