@@ -10,21 +10,10 @@ dependencies {
   testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
 }
 
-task stopPcf(type: JavaExec) {
-  description 'stop a pcf instance (use pcfTestMode property to configure)'
+task stopStartPcf(type: JavaExec) {
+  description 'produce scripts to stop and restart a pcf instance'
   classpath = sourceSets.main.runtimeClasspath
   main = 'com.eitan.pcfutils.PCFStartStop'
-  args 'stop'
-  if (pcfTestMode == 'true') {
-    args 'testing'
-  }
-}
-
-task startPcf(type: JavaExec) {
-  description 'start a pcf instance (use pcfTestMode property to configure)'
-  classpath = sourceSets.main.runtimeClasspath
-  main = 'com.eitan.pcfutils.PCFStartStop'
-  args 'start'
   if (pcfTestMode == 'true') {
     args 'testing'
   }
