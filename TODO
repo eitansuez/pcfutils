@@ -14,6 +14,7 @@ move the test resources back to test/resources
 
 add a bosh cloudcheck into start script after each deployment
 
+when stopping non-elasatic runtime deployments, there may exist a consideration where the broker needs to be stopped before other vms in that deployment.  investigate.  perhaps using p-mysql.  check out their docs.
 
 
 
