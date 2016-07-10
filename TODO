@@ -1,20 +1,4 @@
 
-A. make stop then start work in an automated way
-1. save list of vms when stop pcf
-2. retrofit start task to read the list of vms from that saved file
-3. retest the whole thing
-
-B. think through and handle failure scenarios
-
-C. replace "test mode" with exec vs "produce script" mode.
-
-ok, got it.  get rid fo exec mode altogether.  get rid of two tasks.  have just one.  all it will do is produce a stop script and a start script that the end user can then invoke at their leisure.
-
-move the test resources back to test/resources
-
-add a bosh cloudcheck into start script after each deployment
-
-when stopping non-elasatic runtime deployments, there may exist a consideration where the broker needs to be stopped before other vms in that deployment.  investigate.  perhaps using p-mysql.  check out their docs.
 
 
 
