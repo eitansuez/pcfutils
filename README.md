@@ -24,6 +24,11 @@ and wait patiently as the script will, one by one, stop each of your PCF install
 
 Use at your own risk.
 
+TODO:
+
+I discovered that stopping vms actually terminates them in aws, and the subsequent output of the "bosh vms" command shows they've gone.  So, in order to bring a PCF installation back up, the stop task needs to save the list of vms that were stopped, so it can be used as input by the start script.  Once this is implemented then you will be able to..
+
+
 To bring your PCF installation back:
 
     ./gradlew startPcf -PpcfTestMode=false
