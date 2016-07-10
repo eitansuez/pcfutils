@@ -20,15 +20,11 @@ class PCFUtils {
   }
 
   List<BoshVM> sortStopOrder(List<BoshVM> boshVMs) {
-    boshVMs.sort { BoshVM vm1, BoshVM vm2 ->
-      stopOrder.indexOf(vm1.type) <=> stopOrder.indexOf(vm2.type)
-    }
+    boshVMs.sort { BoshVM vm -> stopOrder.indexOf(vm.type) }
   }
 
   List<BoshVM> sortStartOrder(List<BoshVM> boshVMs) {
-    boshVMs.sort { BoshVM vm1, BoshVM vm2 ->
-      startOrder.indexOf(vm1.type) <=> startOrder.indexOf(vm2.type)
-    }
+    boshVMs.sort { BoshVM vm -> startOrder.indexOf(vm.type) }
   }
 
   def parseVMsByDeployment(List<String> output) {
