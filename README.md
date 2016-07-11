@@ -28,3 +28,6 @@ NOTE:  non-elastic runtime deployments may also have ordering considerations whi
 Use at your own risk.
 
 
+----
+
+Separately, this repo also has a small groovy script `cfit.groovy` that is useful for creating users, orgs, and spaces and deleting them.
