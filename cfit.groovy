@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 
-testing = false
-pwd = 'testing123'
+testing = true
 
 def execAll(multilineCmd) {
   multilineCmd.split('\n').each { cmd ->
@@ -13,7 +12,6 @@ def execAll(multilineCmd) {
 def execIt(cmd) {
   println "cmd: $cmd"
   if (testing) {
-    println "  not actually invoked (testing)"
     return
   }
 
@@ -29,11 +27,11 @@ def execIt(cmd) {
   p.exitValue()
 }
 
-def makeUser(name) {
+def makeUser(name, pass) {
   def org = "$name-org"
   execAll """
 cf create-org $org
-cf create-user $name $pwd
+cf create-user $name $pass
 cf set-org-role $name $org OrgManager
 cf target -o $org
 cf create-space development
@@ -42,7 +40,7 @@ cf set-space-role $name $org development SpaceDeveloper
 """
 }
 
-def delUser(name) {
+def delUser(name, pass=null) {
   def org = "$name-org"
   execAll """
 cf delete-org $org -f
@@ -54,24 +52,31 @@ boolean isValidCmd(cmd) {
   return cmd == "makeUser" || cmd == "delUser"
 }
 
-def processNames(username) {
-  def names = [] as Set
+def promptForPass() {
+  System.console().readPassword('Password: ')
+}
+
+def processUsers(username) {
+  def users = [] as Set
   if (username) {
-    names << username
+    def pass = promptForPass()
+    users << [username: username, pass: pass]
   } else {
-    def lines = new File('names.csv').readLines()
-    def nameLines = lines.findAll { line ->
+    def lines = new File('users.csv').readLines()
+    def usersLines = lines.findAll { line ->
       if (line.startsWith("#")) return false
-      line.split(",")[0].trim().toLowerCase() // fileter out blank lines
+      line.split(",")[0]?.trim() // filter out blank lines
     }
-    names = nameLines.collect { line ->
-      line.split(",")[0].trim().toLowerCase()
+    users = usersLines.collect { line ->
+      def tuple = line.split(",")
+      [username: tuple[0].trim().toLowerCase(), pass: tuple[1].trim()]
     } as Set
 
-    if (names.size() != nameLines.size()) {
-      throw new RuntimeException("names list in names.csv is not unique")
+    if (users.size() != usersLines.size()) {
+      throw new RuntimeException("user names list in users.csv is not unique")
     }
   }
+  users
 }
 
 def cli = new CliBuilder(usage: 'cfit', footer: """
@@ -84,8 +89,8 @@ def cli = new CliBuilder(usage: 'cfit', footer: """
  delUser will delete the org and the user
  ---
  if no username is provided,
- * the script will look for a list of usernames (one per line)
- * in a file named names.csv
+ * the script will look for a list of usernames and passwords (comma separated)
+ * in a file named users.csv
  * in the current working directory
  ---
 """)
@@ -103,9 +108,8 @@ if (!isValidCmd(options.cmd)) {
   return
 }
 
-def names = processNames(options.username)
+def users = processUsers(options.username)
 
-names.each { name ->
-  this.invokeMethod(options.cmd, name)
+users.each { user ->
+  this.invokeMethod(options.cmd, [user.username, user.pass])
 }
-
