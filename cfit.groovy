@@ -40,7 +40,7 @@ cf set-space-role $name $org development SpaceDeveloper
 """
 }
 
-def delUser(name, pass=null) {
+def delUser(name, pass) {
   def org = "$name-org"
   execAll """
 cf delete-org $org -f
