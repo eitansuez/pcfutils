@@ -79,7 +79,7 @@ def processUsers(username) {
   users
 }
 
-def cli = new CliBuilder(usage: 'cfit', footer: """
+def cli = new CliBuilder(usage: 'cfit', width: 120, footer: """
  makeUser will create:
  - a user with specified username
  - an org named <username>-org
