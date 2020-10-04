@@ -37,7 +37,6 @@ cf target -o $org
 cf create-space development
 cf set-space-role $name $org development SpaceManager
 cf set-space-role $name $org development SpaceDeveloper
-uaac member add network.write $name
 """
 }
 
